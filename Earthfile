@@ -4,7 +4,7 @@ PROJECT nu_plugin_vec/plugin
 IMPORT github.com/earthly/lib/rust:2.2.11 AS rust
 
 install:
-  FROM rust:1.84.1-bookworm
+  FROM rust:1.87.0-bookworm
   RUN rustup component add clippy rustfmt
 
   # Call +INIT before copying the source file to avoid installing function depencies every time source code changes
@@ -32,7 +32,7 @@ build:
 
 # test executes all unit and integration tests via Cargo
 test:
-  FROM +source
+  FROM +build
 
   DO rust+CARGO --args="test"
 
@@ -49,7 +49,7 @@ check:
 
 # bumps the version of the plugin if impactful commits have been made
 bumpVersion:
-  FROM commitizen/commitizen:3.29.0
+  FROM commitizen/commitizen:4.4.1
   WORKDIR /build
 
   # Check whether the repository is in a good state to push
